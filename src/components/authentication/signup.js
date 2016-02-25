@@ -4,6 +4,7 @@ var React = require('react-native');
 var {
 	StyleSheet,
 	TextInput,
+	Image,
 	View,
 	Text
 } = React;
@@ -25,8 +26,15 @@ module.exports = React.createClass({
 		var _this = this;
 		return (
 			<View style={styles.container}>
-				<Text style={styles.h1}>QUICK SIGN UP</Text>
-				<Text>username</Text>
+				<View style={styles.masthead}>
+					<Image 
+						style={styles.logo} 
+						source={require('../../../assets/images/clear_all_white_144x144.png')}
+					>
+					</Image>			
+					<Text style={styles.h1}>quick sign up</Text>
+				</View>
+				<Text style={styles.fg_white}>username</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.username} 
@@ -34,7 +42,7 @@ module.exports = React.createClass({
 					autoCapitalize={'none'} 
 				>
 				</TextInput>
-				<Text>password</Text>
+				<Text style={styles.fg_white}>password</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.password}
@@ -43,7 +51,7 @@ module.exports = React.createClass({
 					autoCapitalize={'none'}
 				>
 				</TextInput>
-				<Text>confirm password</Text>
+				<Text style={styles.fg_white}>confirm password</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.passwordConfirmation}
@@ -95,29 +103,47 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
+		backgroundColor: '#2c3e50'
 	},
 	h1:{
-		fontSize: 20,
-		color: '#cccccc',
-		marginBottom: 20
+		fontSize: 30,
+		color: '#ffffff',
+		marginBottom: 20,
+		alignSelf: 'center',
+		fontStyle: 'italic'
+	},
+	masthead: {
+		padding: 20,
+		shadowColor: '#000',
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 1,
+        shadowRadius: 5,
+		elevation: 999
 	},	
 	input: {
 		padding: 4,
-		height: 40,
+		height: 45,
+		fontSize: 15,
 		marginBottom: 20,
-		borderWidth: 1,
-		borderRadius: 5,
-		borderColor: '#aeaeae'
+		color: '#bbbbbb'
 	},
 	errorMessage: {
-		color: 'red',
+		color: '#f1c40f',
 		marginTop: 10,
 		alignSelf: 'center',
 		textAlignVertical: 'center'
 	},
 	backLink: {
-		color: '#89cff0',
+		color: '#ffffff',
 		alignSelf: 'center',
 		marginTop: 15
+	},
+	logo: {
+		width: 60,
+		height: 60,
+		alignSelf: 'center'
+	},
+	fg_white:{
+		color: '#ffffff'
 	}	
 });

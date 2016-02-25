@@ -4,6 +4,7 @@ var React = require('react-native');
 var {
 	StyleSheet,
 	TextInput,
+	Image,
 	View,
 	Text
 } = React;
@@ -30,29 +31,37 @@ module.exports = React.createClass({
 		var _this = this;
 		return (
 			<View style={styles.container}>
-				<Text style={styles.h1}>SIGN IN USING PARSE</Text>
-				<Text>username</Text>
+				<View style={styles.masthead}>
+					<Image 
+						style={styles.logo} 
+						source={require('../../../assets/images/theaters_white_144x144.png')}
+					>
+					</Image>
+					<Text style={styles.h1}>explore movies</Text>
+				</View>
+				<Text style={styles.fg_white}>username</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.username} 
 					onChangeText={(text) => this.setState({username: text, error: ''})}
 					autoCapitalize={'none'} 
-					returnKeyType='next'
+					autoCorrect={false} 
+					returnKeyType='next' 
+					keyboardType={'email-address'}
 				>
 				</TextInput>
-				<Text>password</Text>
+				<Text style={styles.fg_white}>password</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.password}
-					secureTextEntry={true}
+					password={true}
 					onChangeText={(text) =>this.setState({password: text, error: ''})}
-					autoCapitalize={'none'}
+					autoCapitalize={'none'} 
 				>
 				</TextInput>
 				<Button text={'SIGN IN'} onPress={this.onSignInPress}></Button>
-				<Text style={styles.errorMessage}>{this.state.error}</Text>
 				<Text 
-					style={styles.signUp} 
+					style={styles.signUpMessage} 
 					onPress={this.onSignUpPress}
 				>
 					Don't have an account? Sign up!
@@ -90,6 +99,7 @@ module.exports = React.createClass({
 			          console.log(data);
 			        }}
 			    />
+			    <Text style={styles.errorMessage}>{this.state.error}</Text>
 			</View>
 		)
 	},
@@ -127,29 +137,47 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
+		backgroundColor: '#27ae60'
+	},
+	masthead: {
+		padding: 20,
+		shadowColor: '#000',
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 1,
+        shadowRadius: 5,
+		elevation: 999
 	},
 	h1:{
-		fontSize: 20,
-		color: '#cccccc',
-		marginBottom: 20
+		fontSize: 30,
+		color: '#ffffff',
+		marginBottom: 20,
+		alignSelf: 'center',
 	},
 	input: {
 		padding: 4,
-		height: 40,
+		height: 45,
+		fontSize: 15,
 		marginBottom: 20,
-		borderWidth: 1,
-		borderRadius: 5,
-		borderColor: '#aeaeae'
 	},
 	errorMessage: {
-		color: 'red',
+		color: '#FF5722',
 		marginTop: 10,
 		alignSelf: 'center',
-		textAlignVertical: 'center'
+		textAlignVertical: 'center',
 	},
-	signUp: {
-		color: '#89cff0',
+	logo: {
+		width: 60,
+		height: 60,
+		alignSelf: 'center'
+	},
+	signUpMessage: {
+		color: '#ffffff',
 		alignSelf: 'center',
-		marginBottom: 15
-	}
+		margin: 15,
+		fontSize: 16
+	},
+	fg_white:{
+		color: '#ffffff'
+	},
 });
+

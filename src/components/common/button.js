@@ -13,7 +13,7 @@ module.exports = React.createClass({
 		return (
 			<TouchableHighlight 
 				style={styles.button} 
-				underlayColor={'#1b99d5'}
+				underlayColor={'#196e3d'}
 				onPress={this.props.onPress}
 			>
 				<Text style={styles.buttonText}>{this.props.text}</Text>
@@ -24,13 +24,12 @@ module.exports = React.createClass({
 
 var styles = StyleSheet.create({
 	button: {
-		borderRadius: 5,
-		paddingTop: 8,
+		paddingTop: 10,
 		paddingRight: 15,
-		paddingBottom: 8,
+		paddingBottom: 10,
 		paddingLeft: 15,
 		marginTop: 10,
-		backgroundColor: '#89cff0',
+		backgroundColor: '#208e4e',
 	},
 	buttonText: {
 		flex: 1,

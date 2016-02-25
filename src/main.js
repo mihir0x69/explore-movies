@@ -40,7 +40,7 @@ module.exports = React.createClass({
 				style={styles.container} 
 				initialRoute={{ name: 'signin', index: 0 }} 
 				renderScene={ this.renderScene } 
-				configureScene={ () => { return Navigator.SceneConfigs.FloatFromRight; }}
+				configureScene={ () => { return Navigator.SceneConfigs.HorizontalSwipeJump; }}
 			>
 			</Navigator>
 		);
