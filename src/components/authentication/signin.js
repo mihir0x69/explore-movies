@@ -10,7 +10,7 @@ var {
 } = React;
 
 var Button = require('../common/button.js');
-var Parse = require('parse/react-native');
+var Parse = require('parse/react-native').Parse;
 
 var {NativeModules} = require('react-native');
 var FBLogin = require('react-native-facebook-login');
@@ -71,32 +71,20 @@ module.exports = React.createClass({
 			        onLogin={function(data){
 						console.log("Logged in!");
 			          	console.log(data.profile);
+			          	_this.setState({
+			          		username: data.profile.email,
+			          		password: data.profile.id
+			          	});
 			          	// _this.setState({ fbusername : data.profile.email, fbpassword: 'temp' });
-		          		Parse.User.logIn(data.profile.email.toString(), data.profile.id.toString(), {
+		          		Parse.User.logIn(_this.state.username, _this.state.password, {
 							success: (user) => { 
-								console.log('success');
-								this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+								console.log('login success'+ JSON.stringify(user, null, 4));
+								_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
 								// console.log(user); 
 							},
 							error: (data, error) => {
-
-								console.log('error');
-								Parse.User.logOut();
-
-								var user = new Parse.User();
-								user.set('username', data.profile.email.toString());
-								user.set('password', data.profile.id.toString());
-								console.log('calling api...');
-								user.signUp(null, {
-									success: (user) => { 
-										console.log(user);
-										this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
-									},
-									error: (user, error) => {
-										console.log(error);
-										this.setState({ error: error.message }) 
-									}
-								});								
+								console.log('login error: '+ JSON.stringify(error, null, 4));
+								_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
 							}
 						});
 			        }}
@@ -156,6 +144,26 @@ module.exports = React.createClass({
 	},
 	onSignUpPress: function(){
 		this.props.navigator.push({name: 'signup'})
+	},
+	onFacebookAuthSignUp: function(email, id){
+		var _this = this;
+		
+		console.log('inside signup');
+		Parse.User.logOut();
+		var user = new Parse.User();
+		user.set('username', email);
+		user.set('password', id);
+		console.log('calling api...');
+		user.signUp(null, {
+			success: (user) => { 
+				console.log(user);
+				_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+			},
+			error: (user, error) => {
+				console.log(error);
+				_this.setState({ error: error.message }) 
+			}
+		});		
 	}
 });
 
