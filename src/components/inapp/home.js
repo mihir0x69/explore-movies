@@ -4,17 +4,18 @@ import React, {
   Component,
   Image,
   ListView,
+  ScrollView,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-//var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var customData = require('../sampleData/data.json');
 
 module.exports = React.createClass({
   getInitialState: function(){
     return {
+        requestUrl: 'http://www.omdbapi.com/?y=2016',
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2
         }),
@@ -22,19 +23,38 @@ module.exports = React.createClass({
     }
   },
   render: function(){
+    var _scrollView: ScrollView;
 
     if(!this.state.loaded){
       return this.renderLoadingView();
     } 
 
-    return <ListView 
-      dataSource={this.state.dataSource}
-      renderRow={this.renderMovie}
-      style={styles.listView}
-    />
+    return (
+      <View style={styles.scrollView}>
+        <View>
+          <Text style={styles.heading}>movie feed</Text>
+        </View>
+        <ScrollView
+          ref={(scrollView) => { _scrollView = ScrollView; }}
+          automaticallyAdjustContentInsets={false}
+          onScroll={() => { console.log('onScroll!'); }}
+          scrollEventThrottle={200}
+          >
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+          <Text style={styles.header}>Hi</Text>
+        </ScrollView>
+      </View>
+    );
   },
   componentDidMount: function(){
-    setTimeout(this.fetchData, 3000);
+    this.fetchData();
+    // setTimeout(this.fetchData, 3000);
   },
   fetchData: function(){
 
@@ -65,15 +85,15 @@ module.exports = React.createClass({
   renderMovie: function(movie){
     return <View style={styles.container}>
       <Image 
-        source={{uri: movie.posters.thumbnail}} 
+        source={require('../../../assets/images/reload9.jpg')} 
         style={styles.thumbnail} 
       />    
       <View style={styles.rightPane}>
         <Text style={styles.title}>{movie.title}</Text>
         <Text style={styles.year}>{movie.year}</Text>
-      </View>    
-    </View>;      
-  }  
+      </View>
+    </View>;
+  } 
 });
 
 var styles = StyleSheet.create({
@@ -82,32 +102,45 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
+    padding: 10
   },
   rightPane: {
     flex: 1
   },
+  header: {
+    fontSize: 150
+  },
   title: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
-    marginLeft: 20
+    marginLeft: 15
   },
   year: {
     color: '#72c6ed',
     marginLeft: 20
   },
   thumbnail: {
-    width: 53,
-    height: 81
+    width: 81,
+    height: 120
   },
   listView:{
+    flex: 1,
     backgroundColor: '#F5FCFF'
   },
   loader: {
     width: 50,
     height: 50
-  }
+  },
+  heading: {
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  scrollView: {
+    backgroundColor: '#6A85B1',
+    flex: 1
+  },
 });
 
 AppRegistry.registerComponent('listviewDemo', () => listviewDemo);

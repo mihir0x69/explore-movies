@@ -1,0 +1,12 @@
+http://www.omdbapi.com/?
+      <View>
+      <View style={styles.header}>
+        <Text>explore movies</Text>
+      </View>
+        <ListView 
+          dataSource={this.state.dataSource}
+          renderRow={this.renderMovie}
+          style={styles.listView}
+        >
+        </ListView>
+        </View>
