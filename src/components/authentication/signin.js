@@ -24,7 +24,8 @@ module.exports = React.createClass({
 			username: '',
 			password: '',
 			success: false,
-			error: ''
+			error: '',
+			loader: require('../../../assets/images/1x1.png')
 		};
 	},
 	render: function(){
@@ -114,6 +115,7 @@ module.exports = React.createClass({
 			        }}
 			    />
 			    <Text style={styles.errorMessage}>{this.state.error}</Text>
+			    <Image source={this.state.loader} style={styles.loader}></Image>
 			</View>
 		)
 	},
@@ -128,6 +130,9 @@ module.exports = React.createClass({
 				error: 'Password is missing.'
 			});
 		}
+		this.setState({
+			loader: require('../../../assets/images/rolling.gif')
+		});
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
 				this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
@@ -213,5 +218,10 @@ var styles = StyleSheet.create({
 	fg_white:{
 		color: '#ffffff'
 	},
+	loader: {
+		height: 15,
+		width: 15,
+		alignSelf: 'center',
+	}
 });
 
