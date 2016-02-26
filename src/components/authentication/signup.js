@@ -123,7 +123,7 @@ var styles = StyleSheet.create({
 	input: {
 		padding: 4,
 		height: 45,
-		fontSize: 15,
+		fontSize: 22,
 		marginBottom: 20,
 		color: '#bbbbbb'
 	},
