@@ -69,10 +69,36 @@ module.exports = React.createClass({
 				<FBLogin style={{ marginTop: 10, alignSelf: 'center' }}
 			        permissions={["email","user_friends"]}
 			        onLogin={function(data){
-			          console.log("Logged in!");
-			          console.log(data);
-			          _this.setState({ fbusername : data.profile.email, fbpassword: 'temp' });
-			          _this.props.navigator.push({name: 'home'});
+						console.log("Logged in!");
+			          	console.log(data.profile);
+			          	// _this.setState({ fbusername : data.profile.email, fbpassword: 'temp' });
+		          		Parse.User.logIn(data.profile.email.toString(), data.profile.id.toString(), {
+							success: (user) => { 
+								console.log('success');
+								this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+								// console.log(user); 
+							},
+							error: (data, error) => {
+
+								console.log('error');
+								Parse.User.logOut();
+
+								var user = new Parse.User();
+								user.set('username', data.profile.email.toString());
+								user.set('password', data.profile.id.toString());
+								console.log('calling api...');
+								user.signUp(null, {
+									success: (user) => { 
+										console.log(user);
+										this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+									},
+									error: (user, error) => {
+										console.log(error);
+										this.setState({ error: error.message }) 
+									}
+								});								
+							}
+						});
 			        }}
 			        onLogout={function(){
 			          console.log("Logged out.");
@@ -141,11 +167,6 @@ var styles = StyleSheet.create({
 	},
 	masthead: {
 		padding: 20,
-		shadowColor: '#000',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 1,
-        shadowRadius: 5,
-		elevation: 999
 	},
 	h1:{
 		fontSize: 30,
@@ -158,6 +179,11 @@ var styles = StyleSheet.create({
 		height: 45,
 		fontSize: 15,
 		marginBottom: 20,
+		borderWidth: 1,
+		borderTopColor: 'transparent',
+		borderRightColor: 'transparent',
+		borderBottomColor: 'rgba(0,0,0,0.5)',
+		borderLeftColor: 'transparent',
 	},
 	errorMessage: {
 		color: '#FF5722',
