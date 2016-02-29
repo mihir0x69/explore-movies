@@ -14,7 +14,6 @@ import React, {
 } from 'react-native';
 
 var Moment = require('moment');
-var Icon = require('react-native-vector-icons/MaterialIcons');
 
 // var REQUEST_URL = 'http://api.themoviedb.org/3/search/movie?api_key=01082f35da875726ce81a65b79c1d08c&query=batman';
 var REQUEST_URL = 'http://api.themoviedb.org/3/movie/upcoming?api_key=01082f35da875726ce81a65b79c1d08c';
@@ -66,8 +65,8 @@ module.exports = React.createClass({
     );
   },
   componentDidMount: function(){
-    this.fetchData();
-    //setTimeout(this.fetchData, 5000);
+    //this.fetchData();
+    setTimeout(this.fetchData, 3000);
   },
   fetchData: function(){
 
@@ -96,7 +95,7 @@ module.exports = React.createClass({
         </ToolbarAndroid>
         <View style={styles.loader}>
           <Image 
-            source={require('../../../assets/images/load2.gif')}
+            source={require('../../../assets/images/load3.gif')}
             style={styles.loaderImage}
           />
         </View>
@@ -139,7 +138,7 @@ module.exports = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#002133',
     flex: 1,    
   },
   navbarTitle: {
@@ -150,7 +149,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#201F1E',
+    backgroundColor: '#002133',
     padding: 10
   },
   rightPane: {
@@ -186,7 +185,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#201F1E'
+    backgroundColor: '#002133'
   },
   loaderImage: {
     width: 200,
