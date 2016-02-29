@@ -54,8 +54,9 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
+  [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
+  return YES;
 }
 // Facebook SDK
 - (void)applicationDidBecomeActive:(UIApplication *)application {

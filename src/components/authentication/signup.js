@@ -114,11 +114,6 @@ var styles = StyleSheet.create({
 	},
 	masthead: {
 		padding: 20,
-		shadowColor: '#000',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 1,
-        shadowRadius: 5,
-		elevation: 999
 	},	
 	input: {
 		padding: 4,
