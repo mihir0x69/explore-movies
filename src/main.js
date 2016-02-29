@@ -9,6 +9,8 @@ var {
 
 var _navigator;
 
+var ToolbarAndroid = require('ToolbarAndroid');
+
 var Parse = require('parse/react-native');
 var SignIn = require('./components/authentication/signin.js');
 var SignUp = require('./components/authentication/signup.js');
