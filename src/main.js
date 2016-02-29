@@ -12,6 +12,7 @@ var _navigator;
 var ToolbarAndroid = require('ToolbarAndroid');
 
 var Parse = require('parse/react-native');
+
 var SignIn = require('./components/authentication/signin.js');
 var SignUp = require('./components/authentication/signup.js');
 var Home = require('./components/inapp/home.js');
@@ -25,6 +26,7 @@ module.exports = React.createClass({
 
 	componentWillMount: function(){
 		Parse.initialize("8RnG4TwkjtMskGOyU7e2HtGRz3xuD2fgmBPLZuqB", "L99rA684VbjA1Op5FkRbShEltCCKknzVHPnxIkLS");
+
 	},
 	renderScene: function(route, navigator){
 		_navigator = navigator;
@@ -40,7 +42,7 @@ module.exports = React.createClass({
 		return (
 			<Navigator 
 				style={styles.container} 
-				initialRoute={{ name: 'home', index: 0 }} 
+				initialRoute={{ name: 'signin', index: 0 }} 
 				renderScene={ this.renderScene } 
 				configureScene={ () => { return Navigator.SceneConfigs.HorizontalSwipeJump; }}
 			>

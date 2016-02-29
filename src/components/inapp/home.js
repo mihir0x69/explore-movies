@@ -15,6 +15,7 @@ import React, {
 
 //grabbing required components 
 var API = require('../common/api');
+var store = require('react-native-simple-store');
 
 var ToolbarBeforeLoad;
 if(Platform.OS === 'android'){
@@ -102,12 +103,18 @@ module.exports = React.createClass({
         <MovieItem movie={movie} />
     );
   },
+  getData: function(){
+    return store.get('credentials')
+        .then((data) => {
+            return 'Username: ' + data.username + ' Password: ' + data.password;
+        });
+  }
 });
 
 var styles = StyleSheet.create({
   container: {
     backgroundColor: '#091D27',
-    flex: 1    
+    flex: 1
   },
   listView:{
     flex: 1,
@@ -122,6 +129,8 @@ var styles = StyleSheet.create({
     width: 200,
     height: 150
   },
+  cred: {
+    fontSize: 25,
+    color: '#ffffff'
+  }
 });
-
-AppRegistry.registerComponent('listviewDemo', () => listviewDemo);

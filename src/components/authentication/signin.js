@@ -11,6 +11,7 @@ var {
 
 var Button = require('../common/button.js');
 var Parse = require('parse/react-native').Parse;
+var store = require('react-native-simple-store');
 
 var {NativeModules} = require('react-native');
 var FBLogin = require('react-native-facebook-login');
@@ -19,8 +20,6 @@ var FBLoginManager = NativeModules.FBLoginManager;
 module.exports = React.createClass({
 	getInitialState: function(){
 		return{
-			fbusername: '',
-			fbpassword: '',
 			username: '',
 			password: '',
 			success: false,
@@ -133,6 +132,8 @@ module.exports = React.createClass({
 		this.setState({
 			loader: require('../../../assets/images/rolling.gif')
 		});
+		//store.save('credentials', {username: this.state.username, password: this.state.password});
+		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
 				this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
