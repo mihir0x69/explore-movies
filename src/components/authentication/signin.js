@@ -61,7 +61,12 @@ module.exports = React.createClass({
 					autoCapitalize={'none'} 
 				>
 				</TextInput>
-				<Button text={'SIGN IN'} onPress={this.onSignInPress}></Button>
+				<Button 
+					text={'SIGN IN'} 
+					onPress={this.onSignInPress}
+					onRelaxColor={'#117964'}
+					onPressColor={'#08362d'}
+				></Button>
 				<Text 
 					style={styles.signUpMessage} 
 					onPress={this.onSignUpPress}
@@ -202,7 +207,7 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		backgroundColor: '#27ae60'
+		backgroundColor: '#1abc9c'
 	},
 	masthead: {
 		padding: 20,

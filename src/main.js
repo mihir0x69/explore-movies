@@ -16,10 +16,13 @@ var Parse = require('parse/react-native');
 var SignIn = require('./components/authentication/signin.js');
 var SignUp = require('./components/authentication/signup.js');
 var Home = require('./components/inapp/home.js');
+var TestDB = require('./components/inapp/testdb.js');
+
 var ROUTES = {
 	signin: SignIn,
 	signup: SignUp,
-	home: Home
+	home: Home,
+	testdb: TestDB
 };
 
 module.exports = React.createClass({
@@ -42,7 +45,7 @@ module.exports = React.createClass({
 		return (
 			<Navigator 
 				style={styles.container} 
-				initialRoute={{ name: 'signin', index: 0 }} 
+				initialRoute={{ name: 'testdb', index: 0 }} 
 				renderScene={ this.renderScene } 
 				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
 			>

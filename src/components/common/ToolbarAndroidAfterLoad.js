@@ -8,7 +8,7 @@ module.exports = React.createClass({
 	render: function(){
 		return(
 			<ToolbarAndroid
-          		navIcon={require('../../../assets/images/local_movies_white_108x108.png')}
+          		navIcon={require('../../../assets/images/menu_white_54x54.png')}
             	title="Upcoming"
             	titleColor='#ffffff'
             	style={styles.toolbar}
@@ -41,6 +41,6 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
   toolbar:{
     height: 55,
-    backgroundColor: '#27ae60',
+    backgroundColor: '#1abc9c',
   }	
 })

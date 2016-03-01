@@ -12,8 +12,8 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<TouchableHighlight 
-				style={styles.button} 
-				underlayColor={'#196e3d'}
+				style={[styles.button, {backgroundColor: this.props.onRelaxColor}]} 
+				underlayColor={this.props.onPressColor}
 				onPress={this.props.onPress}
 			>
 				<Text style={styles.buttonText}>{this.props.text}</Text>
@@ -29,7 +29,6 @@ var styles = StyleSheet.create({
 		paddingBottom: 10,
 		paddingLeft: 15,
 		marginTop: 10,
-		backgroundColor: '#208e4e',
 	},
 	buttonText: {
 		flex: 1,

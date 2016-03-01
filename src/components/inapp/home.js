@@ -43,12 +43,18 @@ module.exports = React.createClass({
     }
   },
   render: function(){
-var navigationView = (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
-    </View>
-  );
+
     var _scrollView: ScrollView;
+
+    var navigationView = (
+      <View style={styles.container}>
+        <View style={styles.sidebarHeader}>
+        </View>
+        <View style={styles.sidebarBody}>
+          <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+        </View>        
+      </View>
+    );
 
     if(!this.state.loaded){
       return this.renderLoadingView();
@@ -144,5 +150,13 @@ var styles = StyleSheet.create({
   cred: {
     fontSize: 25,
     color: '#ffffff'
-  }
+  },
+  sidebarHeader: {
+    flex: 1, 
+    backgroundColor: '#c0392b'
+  },
+  sidebarBody: {
+    flex: 3,
+    backgroundColor: '#fafafa'
+  },
 });
