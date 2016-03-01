@@ -11,11 +11,13 @@ var {
 
 var Button = require('../common/button.js');
 var Parse = require('parse/react-native').Parse;
-var store = require('react-native-simple-store');
 
 var {NativeModules} = require('react-native');
 var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = NativeModules.FBLoginManager;
+
+var VisibleLoader = require('../../../assets/images/rolling.gif');
+var HiddenLoader = require('../../../assets/images/1x1.png');
 
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -24,7 +26,7 @@ module.exports = React.createClass({
 			password: '',
 			success: false,
 			error: '',
-			loader: require('../../../assets/images/1x1.png')
+			loader: HiddenLoader
 		};
 	},
 	render: function(){
@@ -73,9 +75,11 @@ module.exports = React.createClass({
 			          	console.log(data.profile);
 			          	_this.setState({
 			          		username: data.profile.email,
-			          		password: data.profile.id
+			          		password: data.profile.id,
+			          		loader: VisibleLoader
 			          	});
-			          	// _this.setState({ fbusername : data.profile.email, fbpassword: 'temp' });
+			          	
+			          	
 		          		Parse.User.logIn(_this.state.username, _this.state.password, {
 							success: (user) => { 
 								console.log('login success'+ JSON.stringify(user, null, 4));
@@ -87,6 +91,9 @@ module.exports = React.createClass({
 								_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
 							}
 						});
+						_this.setState({
+							loader: HiddenLoader
+						})
 			        }}
 			        onLogout={function(){
 			          console.log("Logged out.");
@@ -95,7 +102,26 @@ module.exports = React.createClass({
 			        onLoginFound={function(data){
 			          console.log("Existing login found.");
 			          console.log(data);
-			          _this.setState({ user : data.credentials });
+			          	_this.setState({
+			          		username: data.profile.email,
+			          		password: data.profile.id,
+			          		loader: VisibleLoader
+			          	});
+			          	
+		          		Parse.User.logIn(_this.state.username, _this.state.password, {
+							success: (user) => { 
+								console.log('login success'+ JSON.stringify(user, null, 4));
+								_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+								// console.log(user); 
+							},
+							error: (data, error) => {
+								console.log('login error: '+ JSON.stringify(error, null, 4));
+								_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
+							}
+						});
+						_this.setState({
+							loader: HiddenLoader
+						})
 			        }}
 			        onLoginNotFound={function(){
 			          console.log("No user logged in.");
@@ -130,10 +156,9 @@ module.exports = React.createClass({
 			});
 		}
 		this.setState({
-			loader: require('../../../assets/images/rolling.gif')
+			loader: VisibleLoader
 		});
-		//store.save('credentials', {username: this.state.username, password: this.state.password});
-		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
 				this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);

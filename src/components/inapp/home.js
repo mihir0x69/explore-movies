@@ -1,6 +1,7 @@
 'use strict';
 import React, {
   PullToRefreshViewAndroid,
+  DrawerLayoutAndroid,
   AppRegistry,
   ScrollView,
   StyleSheet,
@@ -15,7 +16,6 @@ import React, {
 
 //grabbing required components 
 var API = require('../common/api');
-var store = require('react-native-simple-store');
 
 var ToolbarBeforeLoad;
 if(Platform.OS === 'android'){
@@ -43,15 +43,29 @@ module.exports = React.createClass({
     }
   },
   render: function(){
+var navigationView = (
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+    </View>
+  );
     var _scrollView: ScrollView;
 
     if(!this.state.loaded){
       return this.renderLoadingView();
     } 
 
-    return (
+    return (      
+      <DrawerLayoutAndroid
+        drawerWidth={300}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}
+        ref={'DRAWER'}
+      >
         <View style={styles.container}>
-          <ToolBarAfterLoad />
+          <ToolBarAfterLoad
+            navigator={this.props.navigator}
+            sidebarRef={this}
+          />
           <PullToRefreshViewAndroid 
             style={styles.container}
             refeshing={this.state.isRefreshing}
@@ -67,6 +81,7 @@ module.exports = React.createClass({
           </ScrollView>       
         </PullToRefreshViewAndroid>
       </View>
+      </DrawerLayoutAndroid>
     );
   },
   componentDidMount: function(){
@@ -103,12 +118,9 @@ module.exports = React.createClass({
         <MovieItem movie={movie} />
     );
   },
-  getData: function(){
-    return store.get('credentials')
-        .then((data) => {
-            return 'Username: ' + data.username + ' Password: ' + data.password;
-        });
-  }
+  openDrawer:function() {
+    this.refs['DRAWER'].openDrawer();
+  },
 });
 
 var styles = StyleSheet.create({

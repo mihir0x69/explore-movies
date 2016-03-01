@@ -44,7 +44,7 @@ module.exports = React.createClass({
 				style={styles.container} 
 				initialRoute={{ name: 'signin', index: 0 }} 
 				renderScene={ this.renderScene } 
-				configureScene={ () => { return Navigator.SceneConfigs.HorizontalSwipeJump; }}
+				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
 			>
 			</Navigator>
 		);
@@ -56,18 +56,6 @@ var styles = StyleSheet.create({
 		flex: 1,
 	}
 });
-
-// RCTDeviceEventEmitter.addListener(DEVICE_BACK_EVENT, function() {
-//   var invokeDefault = true;
-//   _backPressSubscriptions.forEach((subscription) => {
-//     if (subscription()) {
-//       invokeDefault = false;
-//     }
-//   });
-//   if (invokeDefault) {
-//     BackAndroid.exitApp();
-//   }
-// });
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
   if (_navigator.getCurrentRoutes().length === 1  ) {
