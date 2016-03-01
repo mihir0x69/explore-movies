@@ -172,7 +172,7 @@ module.exports = React.createClass({
 			error: (data, error) => {
 				this.setState({
 					success: false,
-					error: 'Invalid username or password.'
+					error: error
 				});
 				console.log(data, error);
 			}

@@ -12,10 +12,10 @@ var {
 var Button = require('../common/button.js');
 var Parse = require('parse/react-native').Parse;
 
-var Store = require('react-native-store');
-var DB = {
-	users: Store.model('users')
-}
+// var Store = require('react-native-store');
+// var DB = {
+// 	users: Store.model('users')
+// }
 
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -97,21 +97,21 @@ module.exports = React.createClass({
 			});
 		}
 
-		DB.users.add({
-			username: this.state.username,
-			password: this.state.password
-		});
-
-		// Parse.User.logOut();
-
-		// var user = new Parse.User();
-		// user.set('username', this.state.username);
-		// user.set('password', this.state.password);
-		// console.log('calling api...');
-		// user.signUp(null, {
-		// 	success: (user) => { console.log(user);this.props.navigator.immediatelyResetRouteStack([{name: 'testdb'}]); },
-		// 	error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
+		// DB.users.add({
+		// 	username: this.state.username,
+		// 	password: this.state.password
 		// });
+
+		Parse.User.logOut();
+
+		var user = new Parse.User();
+		user.set('username', this.state.username);
+		user.set('password', this.state.password);
+		console.log('calling api...');
+		user.signUp(null, {
+			success: (user) => { console.log(user);this.props.navigator.immediatelyResetRouteStack([{name: 'testdb'}]); },
+			error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
+		});
 		this.props.navigator.immediatelyResetRouteStack([{name: 'testdb'}]);
 	},
 });
