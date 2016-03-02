@@ -9,7 +9,7 @@ module.exports = React.createClass({
 		return(
 			<ToolbarAndroid
           		navIcon={require('../../../assets/images/menu_white_54x54.png')}
-            	title="Upcoming"
+            	title={this.props.title}
             	titleColor='#ffffff'
             	style={styles.toolbar}
             	actions={[{title: 'About App', show: 'never'}, {title: 'Settings', show: 'never'}, {title: 'Logout', show: 'never'}]}

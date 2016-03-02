@@ -13,16 +13,18 @@ var ToolbarAndroid = require('ToolbarAndroid');
 
 var Parse = require('parse/react-native');
 
-var SignIn = require('./components/authentication/signin.js');
-var SignUp = require('./components/authentication/signup.js');
-var Home = require('./components/inapp/home.js');
-var TestDB = require('./components/inapp/testdb.js');
+var SignIn = require('./components/authentication/signin');
+var SignUp = require('./components/authentication/signup');
+var Home = require('./components/inapp/home');
+var TestDB = require('./components/inapp/testdb');
+var Search = require('./components/inapp/search');
 
 var ROUTES = {
 	signin: SignIn,
 	signup: SignUp,
 	home: Home,
-	testdb: TestDB
+	testdb: TestDB,
+	search: Search
 };
 
 module.exports = React.createClass({

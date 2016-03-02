@@ -18,6 +18,7 @@ var FBLoginManager = NativeModules.FBLoginManager;
 
 var VisibleLoader = require('../../../assets/images/rolling.gif');
 var HiddenLoader = require('../../../assets/images/1x1.png');
+var Icon = require('react-native-vector-icons/MaterialIcons');
 
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -34,11 +35,7 @@ module.exports = React.createClass({
 		return (
 			<View style={styles.container}>
 				<View style={styles.masthead}>
-					<Image 
-						style={styles.logo} 
-						source={require('../../../assets/images/theaters_white_144x144.png')}
-					>
-					</Image>
+					<Icon name="local-movies" size={70} color="#fff" />
 					<Text style={styles.h1}>explore movies</Text>
 				</View>
 				<Text style={styles.fg_white}>username</Text>
@@ -172,7 +169,7 @@ module.exports = React.createClass({
 			error: (data, error) => {
 				this.setState({
 					success: false,
-					error: error
+					error: JSON.stringify(error)
 				});
 				console.log(data, error);
 			}
@@ -211,12 +208,13 @@ var styles = StyleSheet.create({
 	},
 	masthead: {
 		padding: 20,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	h1:{
 		fontSize: 30,
 		color: '#ffffff',
 		marginBottom: 20,
-		alignSelf: 'center',
 	},
 	input: {
 		padding: 4,
@@ -238,7 +236,6 @@ var styles = StyleSheet.create({
 	logo: {
 		width: 60,
 		height: 60,
-		alignSelf: 'center'
 	},
 	signUpMessage: {
 		color: '#ffffff',
