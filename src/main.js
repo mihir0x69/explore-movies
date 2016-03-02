@@ -47,7 +47,7 @@ module.exports = React.createClass({
 		return (
 			<Navigator 
 				style={styles.container} 
-				initialRoute={{ name: 'signin', index: 0 }} 
+				initialRoute={{ name: 'home', index: 0 }} 
 				renderScene={ this.renderScene } 
 				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
 			>

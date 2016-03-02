@@ -1,8 +1,11 @@
 'use strict';
-import React, {
+var React = require('react-native');
+
+var {
   PullToRefreshViewAndroid,
   DrawerLayoutAndroid,
   TouchableHighlight,
+  ViewPagerAndroid,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -11,7 +14,7 @@ import React, {
   Image,
   Text,
   View
-} from 'react-native';
+} = React;
 
 
 //grabbing required components 
@@ -106,20 +109,27 @@ module.exports = React.createClass({
             navigator={this.props.navigator}
             sidebarRef={this}
           />
-          <PullToRefreshViewAndroid 
-            style={styles.container}
-            refeshing={this.state.isRefreshing}
-            onRefresh={this.fetchData}
-            enabled={this.state.isEnabled}
-          >
-          <ScrollView>
-            <ListView 
-              dataSource={this.state.dataSource}
-              renderRow={this.renderMovie}
-              style={styles.listView}>
-            </ListView> 
-          </ScrollView>       
-        </PullToRefreshViewAndroid>
+          <ViewPagerAndroid style={styles.container} initialPage={0}>
+            <View>
+              <PullToRefreshViewAndroid 
+                style={styles.container}
+                refeshing={this.state.isRefreshing}
+                onRefresh={this.fetchData}
+                enabled={this.state.isEnabled}
+              >
+                <ScrollView>
+                  <ListView 
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderMovie}
+                    style={styles.listView}>
+                  </ListView> 
+                </ScrollView>
+              </PullToRefreshViewAndroid>
+            </View>
+            <View>
+              <Text>Open Movie details!!</Text>
+            </View>
+          </ViewPagerAndroid>
       </View>
       </DrawerLayoutAndroid>
     );
@@ -168,7 +178,6 @@ module.exports = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#091D27',
     flex: 1
   },
   listView:{
