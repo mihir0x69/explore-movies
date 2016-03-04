@@ -27,7 +27,6 @@ module.exports = React.createClass({
 			password: '',
 			success: false,
 			error: '',
-			loader: HiddenLoader
 		};
 	},
 	render: function(){
@@ -107,7 +106,6 @@ module.exports = React.createClass({
 			          	_this.setState({
 			          		username: data.profile.email,
 			          		password: data.profile.id,
-			          		loader: VisibleLoader
 			          	});
 			          	
 		          		Parse.User.logIn(_this.state.username, _this.state.password, {

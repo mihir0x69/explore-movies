@@ -2,6 +2,6 @@
 var React = require('react-native');
 var AppRegistry = React.AppRegistry;
 
-var Main = require('./src/main.js');
+var Main = require('./src/mainIOS.js');
 
 AppRegistry.registerComponent('commonDemo', () => Main);
