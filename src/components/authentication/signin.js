@@ -35,10 +35,10 @@ module.exports = React.createClass({
 		return (
 			<View style={styles.container}>
 				<View style={styles.masthead}>
-					<Icon name="local-movies" size={70} color="#fff" />
+					<Icon name="explore" size={70} color="#fff" />
 					<Text style={styles.h1}>explore movies</Text>
 				</View>
-				<Text style={styles.fg_white}>username</Text>
+				<Text style={[styles.fg_white, {alignSelf: 'center'}]}>username</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.username} 
@@ -49,7 +49,7 @@ module.exports = React.createClass({
 					keyboardType={'email-address'}
 				>
 				</TextInput>
-				<Text style={styles.fg_white}>password</Text>
+				<Text style={[styles.fg_white, {alignSelf: 'center'}]}>password</Text>
 				<TextInput 
 					style={styles.input} 
 					value={this.state.password}
@@ -226,6 +226,7 @@ var styles = StyleSheet.create({
 		borderRightColor: 'transparent',
 		borderBottomColor: 'rgba(0,0,0,0.5)',
 		borderLeftColor: 'transparent',
+		textAlign: 'center'
 	},
 	errorMessage: {
 		color: '#FF5722',
