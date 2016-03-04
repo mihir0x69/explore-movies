@@ -10,7 +10,7 @@ var Parse = require('parse/react-native');
 
 var SignIn = require('./components/authentication/signinIOS');
 var SignUp = require('./components/authentication/signupIOS');
-var Home = require('./components/inapp/home');
+var Home = require('./components/inapp/homeIOS');
 var TestDB = require('./components/inapp/testdb');
 var Search = require('./components/inapp/search');
 
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 		return (
 			<NavigatorIOS
                 style={styles.container}
-                initialRoute={{ title: "Sign In", component: SignUp, navigationBarHidden: true}} 
+                initialRoute={{ title: "Sign In", component: Home, navigationBarHidden: true, translucent: true}} 
                 translucent={true}
             />
 		);

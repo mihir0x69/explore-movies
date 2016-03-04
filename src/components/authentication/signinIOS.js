@@ -11,6 +11,7 @@ var {
 
 var Parse = require('parse/react-native').Parse;
 var SignUp = require('./signupIOS');
+var Home = require('../inapp/homeIOS');
 
 // var {NativeModules} = require('react-native');
 // var FBLogin = require('react-native-facebook-login');
@@ -97,7 +98,7 @@ module.exports = React.createClass({
 		}
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
-				this.props.navigator.resetTo({title: 'Home', component: SignUp});
+				this.props.navigator.resetTo({title: 'Home', component: Home});
 				console.log(user); 
 			},
 			error: (data, error) => {

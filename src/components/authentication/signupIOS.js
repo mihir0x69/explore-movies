@@ -5,6 +5,7 @@ var {
 	TouchableHighlight,
 	StatusBarIOS,
 	StyleSheet,
+	ScrollView,
 	TextInput,
 	Image,
 	View,
@@ -14,6 +15,8 @@ var {
 var Parse = require('parse/react-native').Parse;
 var Icon = require('react-native-vector-icons/MaterialIcons');
 
+var Home = require('../inapp/homeIOS');
+
 module.exports = React.createClass({
 	getInitialState: function(){
 		return {
@@ -21,7 +24,8 @@ module.exports = React.createClass({
 			password: '',
 			passwordConfirmation: '',
 			error: '',
-			loggedIn: false
+			errorUsername: '',
+			errorPassword: '',
 		}
 	},
 	render: function(){
@@ -35,31 +39,45 @@ module.exports = React.createClass({
 				<Text style={styles.welcomeTitle}>You'll need a username.</Text>
 				<Text style={styles.welcomeSubtitle}>Make sure it's 6 characters or more.</Text>
 				<View style={styles.inputWrapper}>
-				<TextInput 
-					style={styles.input} 
-					value={this.state.username} 
-					onChangeText={(text) => this.setState({username: text, error: ''})} 
-					autoCapitalize={'none'}
-					autoCorrect={false}
-					placeholder={'username'}
-				>
-				</TextInput>
+					<TextInput 
+						style={styles.input} 
+						value={this.state.username} 
+						onChangeText={(text) => this.setState({username: text, errorUsername: ''})} 
+						autoCapitalize={'none'}
+						autoCorrect={false}
+						placeholder={'username'}
+					>
+					</TextInput>
 				</View>
-				<Text style={styles.errorMessage}></Text>
+				<Text style={styles.errorMessage}>{this.state.errorUsername}</Text>
+				<Text style={styles.welcomeTitle}>And a password.</Text>
+				<Text style={styles.welcomeSubtitle}>8 characters long with one special character.</Text>
+				<View style={styles.inputWrapper}>
+					<TextInput 
+						style={styles.input} 
+						value={this.state.password} 
+						onChangeText={(text) => this.setState({password: text, errorPassword: ''})} 
+						autoCapitalize={'none'}
+						autoCorrect={false}
+						placeholder={'password'}
+						password={true}
+					>
+					</TextInput>
+				</View>
+				<Text style={styles.errorMessage}>{this.state.errorPassword}</Text>
+				<TouchableHighlight 
+					underlayColor={'rgba(0,0,0,0.2)'}
+					onPress={this.onSignUpPress}
+				>
+					<Text style={styles.signUpAction}>Sign up</Text>
+				</TouchableHighlight>
+				<Text style={[styles.errorMessage, {alignSelf: 'center'}]}>{this.state.error}</Text>
 				<Text 
 					style={styles.backLink}
 					onPress={this.onGoBackPress}
 				>
 					Go back
 				</Text>
-				<View style={styles.footer}>
-				</View>
-					<View style={styles.footerInner}>
-					<TouchableHighlight style={styles.nextButton} underlayColor={'#117964'}>
-						<Text style={styles.nextButtonText}>Next</Text>
-					</TouchableHighlight>
-					</View>
-
 			</View>
 		);
 	},
@@ -67,14 +85,15 @@ module.exports = React.createClass({
 		this.props.navigator.pop();
 	},
 	onSignUpPress: function(){
-		if(this.state.password==="" || this.state.passwordConfirmation==="" || this.state.username===""){
+
+		if(this.state.username===""){
 			return this.setState({
-				error: 'All fields are mandatory.'
+				errorUsername: 'Please enter a username.'
 			});
-		}
-		if(this.state.password !== this.state.passwordConfirmation){
+		}		
+		if(this.state.password===""){
 			return this.setState({
-				error: 'Passwords do not match. Please try again.'
+				errorPassword: 'You forgot to set the password!'
 			});
 		}
 
@@ -85,7 +104,7 @@ module.exports = React.createClass({
 		user.set('password', this.state.password);
 		console.log('calling api...');
 		user.signUp(null, {
-			success: (user) => { console.log(user);this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]); },
+			success: (user) => { console.log(user);this.props.navigator.resetTo({title: 'Home', component: Home}); },
 			error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
 		});
 		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
@@ -106,7 +125,7 @@ var styles = StyleSheet.create({
 		fontStyle: 'italic'
 	},
 	masthead: {
-		padding: 30,
+		paddingBottom: 30
 	},	
 	input: {
 		height: 33,
@@ -119,10 +138,11 @@ var styles = StyleSheet.create({
 	},
 	errorMessage: {
 		color: '#ff7f7f',
-		marginTop: 10
+		marginTop: 10,
+		marginBottom: 15
 	},
 	backLink: {
-		color: '#000000',
+		color: '#ccc',
 		alignSelf: 'center',
 		marginTop: 15
 	},
@@ -166,5 +186,10 @@ var styles = StyleSheet.create({
 	nextButtonText: {
 		color: '#ffffff',
 		fontWeight: 'bold'
+	},
+	signUpAction: {
+		fontSize: 20,
+		alignSelf: 'center',
+		margin: 10		
 	}
 });
