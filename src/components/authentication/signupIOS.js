@@ -37,7 +37,7 @@ module.exports = React.createClass({
 					<Icon name="explore" size={40} color="#1abc9c" style={{alignSelf: 'center'}} />
 				</View>
 				<Text style={styles.welcomeTitle}>You'll need a username.</Text>
-				<Text style={styles.welcomeSubtitle}>Make sure it's 6 characters or more.</Text>
+				<Text style={styles.welcomeSubtitle}>Make sure it's 6 characters long or more.</Text>
 				<View style={styles.inputWrapper}>
 					<TextInput 
 						style={styles.input} 
@@ -104,7 +104,7 @@ module.exports = React.createClass({
 		user.set('password', this.state.password);
 		console.log('calling api...');
 		user.signUp(null, {
-			success: (user) => { console.log(user);this.props.navigator.resetTo({title: 'Home', component: Home}); },
+			success: (user) => { console.log(user);this.props.navigator.resetTo({title: 'Home', component: Home, navigationBarHidden: true}); },
 			error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
 		});
 		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
@@ -125,7 +125,7 @@ var styles = StyleSheet.create({
 		fontStyle: 'italic'
 	},
 	masthead: {
-		paddingBottom: 30
+		padding: 30
 	},	
 	input: {
 		height: 33,

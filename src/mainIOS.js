@@ -4,6 +4,7 @@ var {
 	AppRegistry,
 	StyleSheet,
 	NavigatorIOS,
+	Navigator,
 } = React;
 
 var Parse = require('parse/react-native');
@@ -14,17 +15,35 @@ var Home = require('./components/inapp/homeIOS');
 var TestDB = require('./components/inapp/testdb');
 var Search = require('./components/inapp/search');
 
+var ROUTES = {
+	signin: SignIn,
+	signup: SignUp,
+	home: Home,
+	testdb: TestDB,
+	search: Search
+};
+
 module.exports = React.createClass({
 
 	componentWillMount: function(){
 		Parse.initialize("8RnG4TwkjtMskGOyU7e2HtGRz3xuD2fgmBPLZuqB", "L99rA684VbjA1Op5FkRbShEltCCKknzVHPnxIkLS");
 
 	},
+	renderScene: function(route, navigator){
+		var Component = ROUTES[route.name]; //ROUTES['signin'] => SignIn
+		return (
+			<Component 
+				route={route} 
+				navigator={navigator} 
+			/>
+		);
+	},	
 	render: function(){
 		return (
 			<NavigatorIOS
+				ref="nav"
                 style={styles.container}
-                initialRoute={{ title: "Sign In", component: Home, navigationBarHidden: true, translucent: true}} 
+                initialRoute={{ title: "Sign In", component: SignIn, navigationBarHidden: true, translucent: true}} 
                 translucent={true}
             />
 		);

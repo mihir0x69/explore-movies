@@ -98,7 +98,7 @@ module.exports = React.createClass({
 		}
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
-				this.props.navigator.resetTo({title: 'Home', component: Home});
+				this.props.navigator.push({title: 'Explore Movies', component: Home, navigationBarHidden: false});
 				console.log(user); 
 			},
 			error: (data, error) => {

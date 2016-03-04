@@ -71,7 +71,7 @@ module.exports = React.createClass({
 						onPress={()=>this.setState({selectedTab: TABS.popular})}
 						selected={this.state.selectedTab === TABS.popular}
 					>
-						{this._renderHome()}
+						{this._renderBlank('Popular Movies')}
 					</Icon.TabBarItem>
 					<Icon.TabBarItem
 						title="Watchlist"
@@ -80,7 +80,7 @@ module.exports = React.createClass({
 						onPress={()=>this.setState({selectedTab: TABS.watchlist})}
 						selected={this.state.selectedTab === TABS.watchlist}
 					>
-						{this._renderHome()}
+						{this._renderBlank('Your Watchlist')}
 					</Icon.TabBarItem>
 					<Icon.TabBarItem
 						title="Settings"
@@ -89,7 +89,7 @@ module.exports = React.createClass({
 						onPress={()=>this.setState({selectedTab: TABS.settings})}
 						selected={this.state.selectedTab === TABS.settings}
 					>
-						{this._renderHome()}
+						{this._renderBlank('Settings')}
 					</Icon.TabBarItem>					
 				</TabBarIOS>
 		)
@@ -154,6 +154,13 @@ module.exports = React.createClass({
 				<SearchBar
 					placeholder="Search"
 				 />
+			</View>
+  		)
+  	},
+  	_renderBlank: function(welcomeTitle){
+  		return(
+  			<View style={[styles.container, {alignItems: 'center', justifyContent: 'center'}]}>
+  				<Text>{welcomeTitle}</Text>
 			</View>
   		)
   	}
