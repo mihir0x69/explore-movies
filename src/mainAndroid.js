@@ -18,13 +18,15 @@ var SignUp = require('./components/authentication/signup');
 var Home = require('./components/inapp/home');
 var TestDB = require('./components/inapp/testdb');
 var Search = require('./components/inapp/search');
+var Genres = require('./components/inapp/genres');
 
 var ROUTES = {
 	signin: SignIn,
 	signup: SignUp,
 	home: Home,
 	testdb: TestDB,
-	search: Search
+	search: Search,
+	genres: Genres
 };
 
 module.exports = React.createClass({
@@ -47,7 +49,7 @@ module.exports = React.createClass({
 		return (
 			<Navigator 
 				style={styles.container} 
-				initialRoute={{ name: 'home', index: 0 }} 
+				initialRoute={{ name: 'signin', index: 0 }} 
 				renderScene={ this.renderScene } 
 				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
 			>

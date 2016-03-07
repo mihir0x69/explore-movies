@@ -29,7 +29,7 @@ module.exports = React.createClass({
 			    else {
 			    	console.log(error, data);
 			    }
-			   });			
+			   });
 			this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
 		}
 	},

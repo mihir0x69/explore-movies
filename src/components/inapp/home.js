@@ -81,7 +81,7 @@ module.exports = React.createClass({
                   <Text style={styles.sidebarItem}>My Watchlist</Text>
                 </View>
               </TouchableHighlight>
-              <TouchableHighlight underlayColor={'#eaeaea'}>
+              <TouchableHighlight underlayColor={'#eaeaea'} onPress={this.showMovieGenres}>
                 <View style={styles.sidebarItemWrapper}>
                   <Icon name="bubble-chart" size={25} color="#9FA8DA" />
                   <Text style={styles.sidebarItem}>Movie Genres</Text>
@@ -172,7 +172,12 @@ module.exports = React.createClass({
     this.refs['DRAWER'].openDrawer();
   },
   showSearchMovies: function(){
+    this.refs['DRAWER'].closeDrawer();
     this.props.navigator.push({name: 'search'});
+  },
+  showMovieGenres: function(){
+    this.refs['DRAWER'].closeDrawer();
+    this.props.navigator.push({name: 'genres'});
   }
 });
 

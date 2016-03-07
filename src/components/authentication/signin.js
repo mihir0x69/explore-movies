@@ -27,6 +27,7 @@ module.exports = React.createClass({
 			password: '',
 			success: false,
 			error: '',
+			loader: HiddenLoader
 		};
 	},
 	render: function(){
@@ -218,12 +219,9 @@ var styles = StyleSheet.create({
 		padding: 4,
 		height: 45,
 		fontSize: 22,
+		color: '#ffffff',
 		marginBottom: 20,
 		borderWidth: 1,
-		borderTopColor: 'transparent',
-		borderRightColor: 'transparent',
-		borderBottomColor: 'rgba(0,0,0,0.5)',
-		borderLeftColor: 'transparent',
 		textAlign: 'center'
 	},
 	errorMessage: {
