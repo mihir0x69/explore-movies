@@ -7,8 +7,9 @@ function sortByDate(a, b) {
 
 module.exports = {
 
-	getUpcomingMovies: function(){
-		var REQUEST_URL = 'http://api.themoviedb.org/3/movie/upcoming?api_key=01082f35da875726ce81a65b79c1d08c';
+	getUpcomingMovies: function(page){
+		console.log(page + ' in api call');
+		var REQUEST_URL = 'http://api.themoviedb.org/3/movie/upcoming?api_key=01082f35da875726ce81a65b79c1d08c&page='+page;
     	return fetch(REQUEST_URL)
       		.then((response) => response.json())
       		.then((responseData) => {

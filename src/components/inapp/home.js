@@ -43,6 +43,7 @@ module.exports = React.createClass({
         loaded: false,
         isRefreshing: false,
         isEnabled: true,
+        page: 1
     }
   },
   render: function(){
@@ -123,6 +124,7 @@ module.exports = React.createClass({
                     renderRow={this.renderMovie}
                     style={styles.listView}>
                   </ListView> 
+                  <Text style={styles.loadMoreText} onPress={this.loadMoreMovies}>Load more</Text>
                 </ScrollView>
               </PullToRefreshViewAndroid>
             </View>
@@ -140,7 +142,7 @@ module.exports = React.createClass({
   },
   fetchData: function(){
     this.setState({ isRefreshing: true, isEnabled: false });
-    API.getUpcomingMovies()
+    API.getUpcomingMovies(this.state.page)
     	.then((data) => {
 	        this.setState({
 	          dataSource: this.state.dataSource.cloneWithRows(data),
@@ -168,6 +170,12 @@ module.exports = React.createClass({
         <MovieItem movie={movie} />
     );
   },
+  loadMoreMovies: function(){
+    var next = this.state.page+1;
+    console.log(this.state.page);
+    this.setState({ page: next });
+    this.componentDidMount();
+  },
   openDrawer:function() {
     this.refs['DRAWER'].openDrawer();
   },
@@ -183,7 +191,8 @@ module.exports = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#091D27'
   },
   listView:{
     flex: 1,
@@ -227,5 +236,10 @@ var styles = StyleSheet.create({
   sidebarItemWrapper: {
     flexDirection: 'row',
     padding: 15
+  },
+  loadMoreText: {
+    alignSelf: 'center', 
+    color: '#ffffff', 
+    padding: 5
   }
 });
