@@ -37,6 +37,7 @@ var Icon = require('react-native-vector-icons/MaterialIcons');
 module.exports = React.createClass({
   getInitialState: function(){
     return {
+        rawData: [],
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2
         }),
@@ -115,7 +116,7 @@ module.exports = React.createClass({
               <PullToRefreshViewAndroid 
                 style={styles.container}
                 refeshing={this.state.isRefreshing}
-                onRefresh={this.fetchData}
+                onRefresh={this.reloadData}
                 enabled={this.state.isEnabled}
               >
                 <ScrollView>
@@ -137,20 +138,36 @@ module.exports = React.createClass({
     );
   },
   componentDidMount: function(){
-    this.fetchData();
+    this.fetchData(this.state.page);
     //setTimeout(this.fetchData, 2000);
   },
-  fetchData: function(){
+  fetchData: function(page){
     this.setState({ isRefreshing: true, isEnabled: false });
-    API.getUpcomingMovies(this.state.page)
+    console.log(page + ' inside fetchData')
+    API.getUpcomingMovies(page)
     	.then((data) => {
 	        this.setState({
-	          dataSource: this.state.dataSource.cloneWithRows(data),
+            rawData: this.state.rawData.concat(data),
+	          dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
 	          loaded: true,
 	          isRefreshing: false,
 	          isEnabled: true
 	        });
     	});
+  },
+  reloadData: function(){
+    this.setState({ isRefreshing: true, isEnabled: false, rawData: [], page: 1 });
+    console.log(this.state.page + ' inside reloadData');
+    API.getUpcomingMovies(this.state.page)
+      .then((data) => {
+          this.setState({
+            rawData: this.state.rawData.concat(data),
+            dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
+            loaded: true,
+            isRefreshing: false,
+            isEnabled: true
+          });
+      });
   },
   renderLoadingView: function(){
     return (
@@ -171,10 +188,14 @@ module.exports = React.createClass({
     );
   },
   loadMoreMovies: function(){
-    var next = this.state.page+1;
-    console.log(this.state.page);
-    this.setState({ page: next });
-    this.componentDidMount();
+    var nextPage = this.state.page+1;
+    this.setState({ 
+      page: nextPage 
+    });
+    console.log(this.state.page + ' inside loadMoremovies');
+    this.fetchData(nextPage);
+
+    //this.componentDidMount();
   },
   openDrawer:function() {
     this.refs['DRAWER'].openDrawer();

@@ -166,9 +166,20 @@ module.exports = React.createClass({
 				console.log(user); 
 			},
 			error: (data, error) => {
+				var errorText;
+
+				switch(error.code){
+					case 101: 	errorText="Invalid username or password."
+								break;
+					case 100: 	errorText="Unable to connect to the internet."
+								break;
+					default : 	errorText="Something went wrong."
+								break;
+				}
 				this.setState({
 					success: false,
-					error: JSON.stringify(error)
+					error: errorText,
+					loader: HiddenLoader
 				});
 				console.log(data, error);
 			}
@@ -225,7 +236,7 @@ var styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	errorMessage: {
-		color: '#FF5722',
+		color: '#f1c40f',
 		marginTop: 10,
 		alignSelf: 'center',
 		textAlignVertical: 'center',

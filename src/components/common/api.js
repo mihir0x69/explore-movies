@@ -13,7 +13,7 @@ module.exports = {
     	return fetch(REQUEST_URL)
       		.then((response) => response.json())
       		.then((responseData) => {
-      			
+      			console.log(responseData.results)
 	        	return responseData.results.sort(sortByDate);
 			});
 	},
