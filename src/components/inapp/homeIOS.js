@@ -14,7 +14,9 @@ var {
 } = React;
 
 
+var _this;
 var HomeView = require('./home_viewsIOS/home');
+var SignIn = require('../authentication/signinIOS');
 var SearchView = require('./home_viewsIOS/search');
 var Icon = require('react-native-vector-icons/Ionicons');
 var TABS = {
@@ -22,17 +24,18 @@ var TABS = {
 	search: 'search',
 	popular: 'popular',
 	watchlist: 'watchlist',
-	settings: 'settings'
+	logout: 'logout'
 }
 
 module.exports = React.createClass({
 
 	getInitialState: function(){
     	return {
-        	selectedTab: TABS.search
+        	selectedTab: TABS.upcoming
     	}
   	},
 	render: function(){
+		_this=this;
 		StatusBarIOS.setStyle('default');
 		return(
 				<TabBarIOS translucent={true}>
@@ -73,13 +76,12 @@ module.exports = React.createClass({
 						{this._renderBlank('Your Watchlist')}
 					</Icon.TabBarItem>
 					<Icon.TabBarItem
-						title="Settings"
-						iconName="ios-gear-outline"
-						selectedIconName="ios-gear"
-						onPress={()=>this.setState({selectedTab: TABS.settings})}
-						selected={this.state.selectedTab === TABS.settings}
+						title="Logout"
+						iconName="log-out"
+						selectedIconName="log-out"
+						onPress={this._logout}
+						selected={this.state.selectedTab === TABS.logout}
 					>
-						{this._renderBlank('Settings')}
 					</Icon.TabBarItem>					
 				</TabBarIOS>
 		)
@@ -101,6 +103,10 @@ module.exports = React.createClass({
   				<Text>{welcomeTitle}</Text>
 			</View>
   		)
+  	},
+  	_logout: function(){
+  		console.log('hi')
+  		this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
   	},
   	_onChangeSearchText(text){
   		return;

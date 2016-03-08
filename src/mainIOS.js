@@ -40,12 +40,13 @@ module.exports = React.createClass({
 	},	
 	render: function(){
 		return (
-			<NavigatorIOS
-				ref="nav"
-                style={styles.container}
-                initialRoute={{ title: "Sign In", component: Home, navigationBarHidden: true, translucent: true}} 
-                translucent={true}
-            />
+			<Navigator 
+				style={styles.container} 
+				initialRoute={{ name: 'signin', index: 0 }} 
+				renderScene={ this.renderScene } 
+				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
+			>
+			</Navigator>
 		);
 	}
 });

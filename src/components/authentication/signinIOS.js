@@ -79,11 +79,7 @@ module.exports = React.createClass({
 		);
 	},
 	onSignUpPress: function(){
-		this.props.navigator.push({
-			title: 'Quick Sign Up',
-			component: SignUp,
-			navigationBarHidden: true
-		});
+		this.props.navigator.push({name: 'signup'})
 	},
 	onSignInPress: function(){
 		if(this.state.username===""){
@@ -98,17 +94,24 @@ module.exports = React.createClass({
 		}
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
-				this.props.navigator.push({title: 'Explore Movies', component: Home, navigationBarHidden: true});
+				this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
 				console.log(user); 
 			},
 			error: (data, error) => {
 				var errorText;
-				if(error.code===101){
-					errorText = "Invalid username or password"
+
+				switch(error.code){
+					case 101: 	errorText="Invalid username or password."
+								break;
+					case 100: 	errorText="Unable to connect to the internet."
+								break;
+					default : 	errorText="Something went wrong."
+								break;
 				}
 				this.setState({
 					success: false,
-					error: errorText
+					error: errorText,
+					loader: HiddenLoader
 				});
 				console.log(data, error);
 			}

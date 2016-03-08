@@ -104,7 +104,7 @@ module.exports = React.createClass({
 		user.set('password', this.state.password);
 		console.log('calling api...');
 		user.signUp(null, {
-			success: (user) => { console.log(user);this.props.navigator.resetTo({title: 'Home', component: Home, navigationBarHidden: true}); },
+			success: (user) => { console.log(user);this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]); },
 			error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
 		});
 		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);

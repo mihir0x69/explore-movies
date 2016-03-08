@@ -13,6 +13,10 @@ var API = require('../../common/api');
 var MovieItem = require('../../common/MovieItemIOS');
 var Icon = require('react-native-vector-icons/Ionicons');
 
+var VisibleLoader = require('../../../../assets/images/default.gif');
+var HiddenLoader = require('../../../../assets/images/1x1.png');
+
+
 module.exports = React.createClass({
 
 	getInitialState: function(){
@@ -23,7 +27,8 @@ module.exports = React.createClass({
         	}),
 	        loaded: false,
     	    isRefreshing: false,
-        	page: 1,			
+        	page: 1,
+          loader: HiddenLoader
 		}
 	},
 	componentDidMount: function(){
@@ -31,16 +36,18 @@ module.exports = React.createClass({
     	setTimeout(this.reloadData, 2000);
   	},
   	fetchData: function(page){
-    console.log(page + ' inside fetchData');
-    API.getUpcomingMovies(page)
-    	.then((data) => {
-	        this.setState({
-            	rawData: this.state.rawData.concat(data),
-	          	dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
-	          	loaded: true,
-	        });
-    	});
-  	},
+      this.setState({loader: VisibleLoader})
+      console.log(page + ' inside fetchData');
+      API.getUpcomingMovies(page)
+        .then((data) => {
+          this.setState({
+            rawData: this.state.rawData.concat(data),
+            dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
+            loaded: true,
+            loader: HiddenLoader
+          });
+        });
+    },
   	reloadData: function(){
     	this.setState({ isRefreshing: true, rawData: [], page: 1 });
     	console.log(this.state.page + ' inside reloadData');
@@ -67,25 +74,26 @@ module.exports = React.createClass({
       		return this.renderLoadingView();
     	}
   		return(
-			<View style={styles.container}>
-				<ScrollView
-					refreshControl={
-						<RefreshControl 
-							refreshing={this.state.isRefreshing}
-							onRefresh={this.reloadData}
-							tintColor="#1abc9c"
-						/>
-					}
-				>
-                	<ListView 
-                    	dataSource={this.state.dataSource}
-                    	renderRow={this.renderMovie}
-                    	style={styles.listView}
-                    >
-                  	</ListView> 
-                  	<Text style={styles.loadMoreText} onPress={this.loadMoreMovies}>Load more</Text>
-				</ScrollView>  		
-			</View>
+        <View style={styles.container}>
+				  <ScrollView
+            refreshControl={
+						  <RefreshControl 
+                refreshing={this.state.isRefreshing}
+                onRefresh={this.reloadData}
+                tintColor="#1abc9c"
+						  />
+            }
+          >
+            <ListView 
+              dataSource={this.state.dataSource}
+              renderRow={this.renderMovie}
+              style={styles.listView}
+            >
+            </ListView> 
+            <Text style={styles.loadMoreText} onPress={this.loadMoreMovies}>Load more</Text>
+            <View style={styles.loadMoreWrapper}><Image source={this.state.loader} style={styles.loadMoreIndicator}></Image></View>
+				  </ScrollView>  		
+        </View>
   		);    	
 	},
 	renderLoadingView: function(){
@@ -127,6 +135,14 @@ var styles = StyleSheet.create({
 		fontSize: 15,
 		alignSelf: 'center',
 		padding: 20,
-		marginBottom: 50
-	}	
+	},
+  loadMoreWrapper: {
+    padding: 10,
+    marginBottom: 50
+  },
+  loadMoreIndicator: {
+    height: 30, 
+    width: 30,
+    alignSelf: 'center'
+  }  
 })
