@@ -20,6 +20,9 @@ var {
 //grabbing required components 
 var API = require('../common/api');
 
+var VisibleLoader = require('../../../assets/images/rolling.gif');
+var HiddenLoader = require('../../../assets/images/1x1.png');
+
 var ToolbarBeforeLoad;
 if(Platform.OS === 'android'){
   ToolbarBeforeLoad = require('../common/ToolbarAndroidBeforeLoad');
@@ -42,9 +45,13 @@ module.exports = React.createClass({
           rowHasChanged: (row1, row2) => row1 !== row2
         }),
         loaded: false,
+        loader: HiddenLoader,
         isRefreshing: false,
         isEnabled: true,
-        page: 1
+        page: 1,
+        movie: {
+          title: ''
+        }
     }
   },
   render: function(){
@@ -125,12 +132,13 @@ module.exports = React.createClass({
                     renderRow={this.renderMovie}
                     style={styles.listView}>
                   </ListView> 
-                  <Text style={styles.loadMoreText} onPress={this.loadMoreMovies}>Load more</Text>
+                  <Text style={styles.loadMoreText} onPress={this.loadMoreMovies}>Load more movies</Text>
+                  <View style={styles.loadMoreWrapper}><Image source={this.state.loader} style={styles.loadMoreIndicator}></Image></View>
                 </ScrollView>
               </PullToRefreshViewAndroid>
             </View>
             <View>
-              <Text>Open Movie details!!</Text>
+              <Text style={{color: '#ffffff'}}>{this.state.movie.title}</Text>
             </View>
           </ViewPagerAndroid>
       </View>
@@ -138,11 +146,11 @@ module.exports = React.createClass({
     );
   },
   componentDidMount: function(){
-    this.fetchData(this.state.page);
+    this.reloadData();
     //setTimeout(this.fetchData, 2000);
   },
   fetchData: function(page){
-    this.setState({ isRefreshing: true, isEnabled: false });
+    this.setState({ isRefreshing: true, isEnabled: false, loader: VisibleLoader });
     console.log(page + ' inside fetchData')
     API.getUpcomingMovies(page)
     	.then((data) => {
@@ -151,7 +159,8 @@ module.exports = React.createClass({
 	          dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
 	          loaded: true,
 	          isRefreshing: false,
-	          isEnabled: true
+	          isEnabled: true,
+            loader: HiddenLoader
 	        });
     	});
   },
@@ -207,7 +216,7 @@ module.exports = React.createClass({
   showMovieGenres: function(){
     this.refs['DRAWER'].closeDrawer();
     this.props.navigator.push({name: 'genres'});
-  }
+  },
 });
 
 var styles = StyleSheet.create({
@@ -261,6 +270,14 @@ var styles = StyleSheet.create({
   loadMoreText: {
     alignSelf: 'center', 
     color: '#ffffff', 
-    padding: 5
+    paddingTop: 10
+  },
+  loadMoreWrapper: {
+    padding: 10
+  },
+  loadMoreIndicator: {
+    height: 15, 
+    width: 15,
+    alignSelf: 'center'
   }
 });
