@@ -13,9 +13,9 @@ var {
 	Text
 } = React;
 
-var SearchBar = require('react-native-search-bar');
-var API = require('../common/api');
-var MovieItem = require('../common/MovieItemIOS');
+
+var HomeView = require('./home_viewsIOS/home');
+var SearchView = require('./home_viewsIOS/search');
 var Icon = require('react-native-vector-icons/Ionicons');
 var TABS = {
 	upcoming: 'upcoming',
@@ -29,21 +29,11 @@ module.exports = React.createClass({
 
 	getInitialState: function(){
     	return {
-        	dataSource: new ListView.DataSource({
-	        	rowHasChanged: (row1, row2) => row1 !== row2
-    		}),
-        	loaded: false,
-        	isRefreshing: false,
-        	selectedTab: TABS.upcoming
+        	selectedTab: TABS.search
     	}
   	},
 	render: function(){
 		StatusBarIOS.setStyle('default');
-
-		if(!this.state.loaded){
-      		return this.renderLoadingView();
-    	}
-
 		return(
 				<TabBarIOS translucent={true}>
 					<Icon.TabBarItem
@@ -94,67 +84,15 @@ module.exports = React.createClass({
 				</TabBarIOS>
 		)
 	},
-	componentDidMount: function(){
-    	this.fetchData();
-    	//setTimeout(this.fetchData, 5000);
-  	},
-  	fetchData: function(){
-  		this.setState({isRefreshing: true});
-    	API.getUpcomingMovies()
-    		.then((data) => {
-	        	this.setState({
-		          dataSource: this.state.dataSource.cloneWithRows(data),
-		          loaded: true,
-		          isRefreshing: false
-	        	});
-    	});
-  	},
-	renderLoadingView: function(){
-		return (
-      		<View style={styles.container}>
-        		<View style={styles.loader}>
-          			<Image 
-            			source={require('../../../assets/images/loaderIOS.gif')}
-            			style={styles.loaderImage}
-          			/>
-        		</View>
-      		</View>
-    	);
-	},
-	renderMovie: function(movie){
-	    return (
-    	    <MovieItem movie={movie} />
-    	);
-  	},
+
   	_renderHome: function(){
   		return(
-			<View style={styles.container}>
-				<ScrollView
-					refreshControl={
-						<RefreshControl 
-							refreshing={this.state.isRefreshing}
-							onRefresh={this.fetchData}
-							tintColor="#1abc9c"
-						/>
-					}
-				>
-                	<ListView 
-                    	dataSource={this.state.dataSource}
-                    	renderRow={this.renderMovie}
-                    	style={styles.listView}
-                    >
-                  	</ListView> 
-				</ScrollView>  		
-			</View>
-  		);
+  			<HomeView />
+  		)
   	},
   	_renderSearch: function(){
   		return(
-  			<View style={styles.container}>
-				<SearchBar
-					placeholder="Search"
-				 />
-			</View>
+  			<SearchView />
   		)
   	},
   	_renderBlank: function(welcomeTitle){
@@ -163,7 +101,30 @@ module.exports = React.createClass({
   				<Text>{welcomeTitle}</Text>
 			</View>
   		)
-  	}
+  	},
+  	_onChangeSearchText(text){
+  		return;
+		var _this = this;
+		text = text.replace(/(^\s+|\s+$)/g, '');
+
+		if(text==="" || text.length<2){
+			return;
+		}
+
+		if(lastValue!==text){
+			lastValue = text;
+			if(timeout){ clearTimeout(timeout)}
+			timeout = setTimeout(function(){
+				_this.setState({ loaded: false })
+				API.getSearchResults(text)
+					.then((data) => {
+						console.log(data);
+						_this.setState({ dataSource: _this.state.dataSource.cloneWithRows(data), loaded: true });
+					})
+					.done();
+			}, 200);
+		}
+	},
 });
 	
 var styles = StyleSheet.create({
@@ -172,14 +133,4 @@ var styles = StyleSheet.create({
 		backgroundColor: '#ffffff',
 		paddingTop: 20
 	},
-	loader: {
-	    flex: 1,
-    	justifyContent: 'center',
-    	alignItems: 'center',
-    	backgroundColor: '#ffffff'
-  	},
-	loaderImage: {
-		width: 200,
-    	height: 150
-	}
 })

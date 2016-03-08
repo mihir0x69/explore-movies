@@ -43,7 +43,7 @@ module.exports = React.createClass({
 			<NavigatorIOS
 				ref="nav"
                 style={styles.container}
-                initialRoute={{ title: "Sign In", component: SignIn, navigationBarHidden: true, translucent: true}} 
+                initialRoute={{ title: "Sign In", component: Home, navigationBarHidden: true, translucent: true}} 
                 translucent={true}
             />
 		);
