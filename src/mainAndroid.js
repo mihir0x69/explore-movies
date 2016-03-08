@@ -36,6 +36,13 @@ module.exports = React.createClass({
 
 	},
 	renderScene: function(route, navigator){
+		// var data;
+		// if(route.data==="mihir"){
+		// 	data=route.data;
+		// }
+		// else{
+		// 	data=''
+		// }
 		_navigator = navigator;
 		var Component = ROUTES[route.name]; //ROUTES['signin'] => SignIn
 		return (
@@ -49,7 +56,7 @@ module.exports = React.createClass({
 		return (
 			<Navigator 
 				style={styles.container} 
-				initialRoute={{ name: 'home', index: 0 }} 
+				initialRoute={{ name: 'signin', index: 0 }} 
 				renderScene={ this.renderScene } 
 				configureScene={ () => { return Navigator.SceneConfigs.PushFromRight; }}
 			>

@@ -89,6 +89,17 @@ module.exports = React.createClass({
 								// console.log(user); 
 							},
 							error: (data, error) => {
+								var errorText;
+
+								switch(error.code){
+									case 101: 	errorText="Invalid username or password."
+												break;
+									case 100: 	errorText="Unable to connect to the internet."
+												break;
+									default : 	errorText="Something went wrong."
+												break;
+								}
+								_this.setState({ error: errorText })
 								console.log('login error: '+ JSON.stringify(error, null, 4));
 								_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
 							}
@@ -116,6 +127,16 @@ module.exports = React.createClass({
 								// console.log(user); 
 							},
 							error: (data, error) => {
+								var errorText;
+
+								switch(error.code){
+									case 101: 	errorText="Invalid username or password."
+												break;
+									case 100: 	errorText="Unable to connect to the internet."
+												break;
+									default : 	errorText="Something went wrong."
+												break;
+								}
 								console.log('login error: '+ JSON.stringify(error, null, 4));
 								_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
 							}
@@ -186,6 +207,7 @@ module.exports = React.createClass({
 		});
 	},
 	onSignUpPress: function(){
+		//this.props.navigator.push({name: 'signup', data: 'mihir'})
 		this.props.navigator.push({name: 'signup'})
 	},
 	onFacebookAuthSignUp: function(email, id){

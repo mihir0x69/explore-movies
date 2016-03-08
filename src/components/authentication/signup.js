@@ -86,6 +86,7 @@ module.exports = React.createClass({
 		this.props.navigator.pop();
 	},
 	onSignUpPress: function(){
+		var _this=this;
 		if(this.state.password==="" || this.state.passwordConfirmation==="" || this.state.username===""){
 			return this.setState({
 				error: 'All fields are mandatory.'
@@ -110,7 +111,22 @@ module.exports = React.createClass({
 		console.log('calling api...');
 		user.signUp(null, {
 			success: (user) => { console.log(user);this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]); },
-			error: (user, error) => { console.log(error);this.setState({ error: error.message }) }
+			error: (user, error) => { 
+
+				var errorText;
+				switch(error.code){
+					case 101: 	errorText="Invalid username or password.";
+								break;
+					case 100: 	errorText="Unable to connect to the internet.";
+								break;
+					case 202: 	errorText="\""+_this.state.username+"\" has already been taken";
+								break;
+					default : 	errorText="Something went wrong.";
+								break;
+				}
+				console.log(error);
+				this.setState({ error: errorText });
+			}
 		});
 		//this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
 	},
