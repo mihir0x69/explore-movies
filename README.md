@@ -27,5 +27,5 @@ __Note:__ Basic working of nodejs, npm is required.
 * Open a terminal and run ``` react-native start ``` to start react native package manager
 * Open another terminal and run ``` react-native run-android ``` or ``` react-native run-ios ``` to run the project.
 
-### Implement Facebook Install
+### Implement Facebook Login Button
 * Follow instructions from this [repo](https://github.com/magus/react-native-facebook-login) to implement facebook login button.
