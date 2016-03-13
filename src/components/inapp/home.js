@@ -49,9 +49,6 @@ module.exports = React.createClass({
         isRefreshing: false,
         isEnabled: true,
         page: 1,
-        movie: {
-          title: ''
-        }
     }
   },
   render: function(){
@@ -78,7 +75,7 @@ module.exports = React.createClass({
                   <Text style={styles.sidebarItem}>Search Movies</Text>
                 </View>
               </TouchableHighlight>
-              <TouchableHighlight underlayColor={'#eaeaea'}>
+              <TouchableHighlight underlayColor={'#eaeaea'} onPress={this.showPopularMovies}>
                 <View style={styles.sidebarItemWrapper}>
                   <Icon name="stars" size={25} color="#9FA8DA" />
                   <Text style={styles.sidebarItem}>Popular Movies</Text>
@@ -137,9 +134,6 @@ module.exports = React.createClass({
                 </ScrollView>
               </PullToRefreshViewAndroid>
             </View>
-            <View>
-              <Text style={{color: '#ffffff'}}>{this.state.movie.title}</Text>
-            </View>
           </ViewPagerAndroid>
       </View>
       </DrawerLayoutAndroid>
@@ -181,7 +175,7 @@ module.exports = React.createClass({
   renderLoadingView: function(){
     return (
       <View style={styles.container}>
-        <ToolbarBeforeLoad />
+        <ToolbarBeforeLoad title="Upcoming" navIcon={require('../../../assets/images/menu_white_54x54.png')} />
         <View style={styles.loader}>
           <Image 
             source={require('../../../assets/images/load4.gif')}
@@ -193,7 +187,7 @@ module.exports = React.createClass({
   },
   renderMovie: function(movie){
     return (
-        <MovieItem movie={movie} />
+        <MovieItem movie={movie} navigator={this.props.navigator} />
     );
   },
   loadMoreMovies: function(){
@@ -213,6 +207,10 @@ module.exports = React.createClass({
     this.refs['DRAWER'].closeDrawer();
     this.props.navigator.push({name: 'search'});
   },
+  showPopularMovies: function(){
+    this.refs['DRAWER'].closeDrawer();
+    this.props.navigator.push({name: 'popular'});
+  },  
   showMovieGenres: function(){
     this.refs['DRAWER'].closeDrawer();
     this.props.navigator.push({name: 'genres'});

@@ -6,8 +6,8 @@ module.exports = React.createClass({
   render: function(){
 		return(
         <ToolbarAndroid 
-          navIcon={require('../../../assets/images/menu_white_54x54.png')}
-          title="Upcoming"
+          navIcon={this.props.navIcon}
+          title={this.props.title}
           titleColor='#ffffff'
           style={styles.toolbar}
         >

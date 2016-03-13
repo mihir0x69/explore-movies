@@ -32,5 +32,21 @@ module.exports = {
 			.then((responseData) => {
 				return responseData.genres;
 			})
+	},
+	getMovieDetails: function(id){
+		var REQUEST_URL = 'http://api.themoviedb.org/3/movie/'+ id +'?api_key=01082f35da875726ce81a65b79c1d08c';
+		return fetch(REQUEST_URL)
+			.then((response) => response.json())
+			.then((responseData) => {
+				return responseData;
+			})		
+	},
+	getPopularMovies: function(){
+		var REQUEST_URL = "http://api.themoviedb.org/3/movie/popular?api_key=01082f35da875726ce81a65b79c1d08c";
+		return fetch(REQUEST_URL)
+			.then((response) => response.json())
+			.then((responseData) => {
+				return responseData.results;
+			})
 	}
 };

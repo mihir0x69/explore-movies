@@ -19,6 +19,8 @@ var Home = require('./components/inapp/home');
 var TestDB = require('./components/inapp/testdb');
 var Search = require('./components/inapp/search');
 var Genres = require('./components/inapp/genres');
+var Movie = require('./components/inapp/movie');
+var Popular = require('./components/inapp/popular');
 
 var ROUTES = {
 	signin: SignIn,
@@ -26,7 +28,9 @@ var ROUTES = {
 	home: Home,
 	testdb: TestDB,
 	search: Search,
-	genres: Genres
+	genres: Genres,
+	movie: Movie,
+	popular: Popular
 };
 
 module.exports = React.createClass({
@@ -49,6 +53,7 @@ module.exports = React.createClass({
 			<Component 
 				route={route} 
 				navigator={navigator} 
+				data={route.data}
 			/>
 		);
 	},
