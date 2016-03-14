@@ -72,7 +72,7 @@ module.exports = React.createClass({
         		</View>
       		</View>
     	);	
-    }
+    },
   	renderMovie: function(movie){
     	return (
         	<MovieItem movie={movie} navigator={this.props.navigator} />
