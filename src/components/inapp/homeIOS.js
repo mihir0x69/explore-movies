@@ -20,6 +20,7 @@ var SignIn = require('../authentication/signinIOS');
 var SearchView = require('./home_viewsIOS/search');
 var Icon = require('react-native-vector-icons/Ionicons');
 var PopularMovies = require('./popularIOS');
+var FBLoginManager = require('NativeModules').FBLoginManager;
 
 var TABS = {
 	upcoming: 'upcoming',
@@ -112,8 +113,16 @@ module.exports = React.createClass({
   		)
   	},
   	_logout: function(){
-  		console.log('hi')
-  		this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
+  		var _this = this;
+		FBLoginManager.logout(function(error, data){
+			if (!error) {
+				_this.props.onLogout && _this.props.onLogout();
+			} 
+			else {
+				console.log(error, data);
+			}
+		});
+		this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
   	},
   	_onChangeSearchText(text){
   		return;

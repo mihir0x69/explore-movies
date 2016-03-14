@@ -13,11 +13,12 @@ var Parse = require('parse/react-native').Parse;
 var SignUp = require('./signupIOS');
 var Home = require('../inapp/homeIOS');
 
-// var {NativeModules} = require('react-native');
-// var FBLogin = require('react-native-facebook-login');
-// var FBLoginManager = NativeModules.FBLoginManager;
-// var FBLoginManager = require('NativeModules').FBLoginManager;
+var {NativeModules} = require('react-native');
+var FBLogin = require('react-native-facebook-login');
+var FBLoginManager = NativeModules.FBLoginManager;
 
+var VisibleLoader = require('../../../assets/images/rolling.gif');
+var HiddenLoader = require('../../../assets/images/1x1.png');
 var Icon = require('react-native-vector-icons/MaterialIcons');
 
 module.exports = React.createClass({
@@ -26,7 +27,8 @@ module.exports = React.createClass({
 			username: '',
 			password: '',
 			success: false,
-			error: ''
+			error: '',
+			loader: HiddenLoader
 		};
 	},	
 	render: function(){
@@ -73,10 +75,75 @@ module.exports = React.createClass({
 							Don't have an account? Sign up!
 						</Text>
 					    <Text style={styles.errorMessage}>{this.state.error}</Text>
+					    <Image source={this.state.loader} style={styles.loader}></Image>
+						<FBLogin 
+							style={{ marginTop: 10, alignSelf: 'center' }}
+					        permissions={["public_profile", "email"]}
+			        		onLogin={function(data){
+
+			        			_this.setState({ loader: VisibleLoader });
+								console.log("Logged in!");
+					          	console.log(data.credentials);
+					          	var api = `https://graph.facebook.com/v2.3/${data.credentials.userId}?fields=name,email&access_token=${data.credentials.token}`
+					          	fetch(api)
+					          		.then((response) => response.json())
+					          		.then((responseData) => {
+					          			console.log(responseData.email);
+					          			console.log(responseData.id);
+					          			console.log(responseData);
+					          			_this.setState({
+					          				username: responseData.email,
+					          				password: responseData.id
+					          			});		
+					          		})
+					          		.then(_this.login);
+					          	_this.setState({
+									loader: HiddenLoader
+								})		
+			        		}} 
+			        		onLogout={function(){
+			          			console.log("Logged out.");
+			          			_this.setState({ user : null });
+			        		}}
+			        		onLoginFound={function(data){
+			          			console.log("Existing login found.");
+			          			console.log(data);
+			          			_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+							}}
+					        onLoginNotFound={function(){
+					          	console.log("No user logged in.");
+			    		      	_this.setState({ user : null });
+					        }}
+					        onError={function(data){
+			    		      	console.log("ERROR");
+					          	console.log(data);
+					        }}
+			    		    onCancel={function(){
+					          	console.log("User cancelled.");
+					        }}
+			    		    onPermissionsMissing={function(data){
+			          			console.log("Check permissions!");
+								console.log(data);
+			        		}}
+			    		/>					    
 					</View>
 				</View>
 			</View>
 		);
+	},
+	login: function(){
+		var _this = this;
+		Parse.User.logIn(_this.state.username, _this.state.password, {
+			success: (user) => { 
+				console.log('login success'+ JSON.stringify(user, null, 4));
+				_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+				// console.log(user); 
+			},
+			error: (data, error) => {
+				console.log(error);
+				_this.onFacebookAuthSignUp(_this.state.username, _this.state.password);
+			}
+		});
 	},
 	onSignUpPress: function(){
 		this.props.navigator.push({name: 'signup'})
@@ -118,7 +185,37 @@ module.exports = React.createClass({
 				console.log(data, error);
 			}
 		});		
-	}
+	},
+	onFacebookAuthSignUp: function(email, id){
+		var _this = this;
+		
+		console.log('inside signup');
+		Parse.User.logOut();
+		var user = new Parse.User();
+		user.set('username', email);
+		user.set('password', id);
+		console.log('calling api...');
+		user.signUp(null, {
+			success: (user) => { 
+				console.log(user);
+				_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+			},
+			error: (user, error) => {
+				var errorText;
+
+				switch(error.code){
+					case 101: 	errorText="Invalid username or password."
+								break;
+					case 100: 	errorText="Unable to connect to the internet."
+								break;
+					default : 	errorText="Something went wrong."
+								break;
+				}
+				_this.setState({ error: errorText })
+				console.log('login error: '+ JSON.stringify(error, null, 4));
+			}
+		});		
+	}	
 });
 
 var styles = StyleSheet.create({

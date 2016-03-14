@@ -74,7 +74,7 @@ module.exports = React.createClass({
 			        permissions={["email","user_friends"]}
 			        onLogin={function(data){
 						console.log("Logged in!");
-			          	console.log(data.profile);
+			          	console.log(data);
 			          	_this.setState({
 			          		username: data.profile.email,
 			          		password: data.profile.id,
@@ -146,19 +146,19 @@ module.exports = React.createClass({
 						})
 			        }}
 			        onLoginNotFound={function(){
-			          console.log("No user logged in.");
-			          _this.setState({ user : null });
+			        	console.log("No user logged in.");
+			          	_this.setState({ user : null });
 			        }}
 			        onError={function(data){
-			          console.log("ERROR");
-			          console.log(data);
+			          	console.log("ERROR");
+			          	console.log(data);
 			        }}
 			        onCancel={function(){
-			          console.log("User cancelled.");
+			          	console.log("User cancelled.");
 			        }}
 			        onPermissionsMissing={function(data){
-			          console.log("Check permissions!");
-			          console.log(data);
+			          	console.log("Check permissions!");
+			          	console.log(data);
 			        }}
 			    />
 			    <Text style={styles.errorMessage}>{this.state.error}</Text>
