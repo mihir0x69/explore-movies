@@ -19,6 +19,8 @@ var HomeView = require('./home_viewsIOS/home');
 var SignIn = require('../authentication/signinIOS');
 var SearchView = require('./home_viewsIOS/search');
 var Icon = require('react-native-vector-icons/Ionicons');
+var PopularMovies = require('./popularIOS');
+
 var TABS = {
 	upcoming: 'upcoming',
 	search: 'search',
@@ -64,7 +66,7 @@ module.exports = React.createClass({
 						onPress={()=>this.setState({selectedTab: TABS.popular})}
 						selected={this.state.selectedTab === TABS.popular}
 					>
-						{this._renderBlank('Popular Movies')}
+						{this._renderPopular()}
 					</Icon.TabBarItem>
 					<Icon.TabBarItem
 						title="Watchlist"
@@ -89,14 +91,19 @@ module.exports = React.createClass({
 
   	_renderHome: function(){
   		return(
-  			<HomeView />
+  			<HomeView navigator={this.props.navigator} />
   		)
   	},
   	_renderSearch: function(){
   		return(
-  			<SearchView />
+  			<SearchView navigator={this.props.navigator} />
   		)
   	},
+  	_renderPopular: function(){
+  		return(
+  			<PopularMovies navigator={this.props.navigator} />
+  		)
+  	},  	
   	_renderBlank: function(welcomeTitle){
   		return(
   			<View style={[styles.container, {alignItems: 'center', justifyContent: 'center'}]}>

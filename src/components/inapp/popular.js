@@ -60,7 +60,7 @@ module.exports = React.createClass({
 	fetchData: function(){
 
 	},
-  	renderLoadingView: function(){
+	renderLoadingView: function(){
     	return (
       		<View style={styles.container}>
         		<ToolbarBeforeLoad title="Popular Movies" navIcon={require('../../../assets/images/arrow_back_white_54x54.png')} />
@@ -71,8 +71,8 @@ module.exports = React.createClass({
           			/>
         		</View>
       		</View>
-    	);
-  	},	
+    	);	
+    }
   	renderMovie: function(movie){
     	return (
         	<MovieItem movie={movie} navigator={this.props.navigator} />

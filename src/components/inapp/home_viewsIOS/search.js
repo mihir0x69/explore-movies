@@ -54,7 +54,7 @@ module.exports = React.createClass({
 	},
 	renderMovie: function(movie){
 	    return (
-    	    <MovieItem movie={movie} />
+    	    <MovieItem movie={movie} navigator={this.props.navigator} />
     	);
   	},
   	_onChangeSearchText(text){

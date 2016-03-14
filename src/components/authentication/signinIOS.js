@@ -82,6 +82,7 @@ module.exports = React.createClass({
 		this.props.navigator.push({name: 'signup'})
 	},
 	onSignInPress: function(){
+		var _this = this;
 		if(this.state.username===""){
 			return this.setState({
 				error: 'Username is missing.'
@@ -94,10 +95,11 @@ module.exports = React.createClass({
 		}
 		Parse.User.logIn(this.state.username, this.state.password, {
 			success: (user) => { 
-				this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
+				_this.props.navigator.immediatelyResetRouteStack([{name: 'home'}]);
 				console.log(user); 
 			},
 			error: (data, error) => {
+				console.log(error);
 				var errorText;
 
 				switch(error.code){
@@ -108,7 +110,7 @@ module.exports = React.createClass({
 					default : 	errorText="Something went wrong."
 								break;
 				}
-				this.setState({
+				_this.setState({
 					success: false,
 					error: errorText,
 					loader: HiddenLoader

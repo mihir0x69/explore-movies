@@ -10,6 +10,7 @@ var {
 var Moment = require('moment');
 
 module.exports = React.createClass({
+
 	render: function(){
 		var placeholderImage;
 
@@ -20,7 +21,7 @@ module.exports = React.createClass({
 			placeholderImage = {uri: "https://image.tmdb.org/t/p/w185" + this.props.movie.poster_path};
 		}
 		return(
-	      <TouchableHighlight>
+	      <TouchableHighlight onPress={this.respondToTouch}>
 	      <View style={styles.itemWrapper}>
 	        <View>
 	          <Image 
@@ -45,7 +46,11 @@ module.exports = React.createClass({
 	    return str.substring(0, 200) + "...";
 	  }
 	  return str;
-	},  	
+	},
+	respondToTouch: function(){
+		//console.log('tapped '+this.state.title);
+		this.props.navigator.push({name: 'movie', data: {id: this.props.movie.id, title: this.props.movie.title }});
+	}	
 });
 
 var styles = StyleSheet.create({

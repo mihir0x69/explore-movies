@@ -14,13 +14,15 @@ var SignUp = require('./components/authentication/signupIOS');
 var Home = require('./components/inapp/homeIOS');
 var TestDB = require('./components/inapp/testdb');
 var Search = require('./components/inapp/search');
+var Movie = require('./components/inapp/movieIOS');
 
 var ROUTES = {
 	signin: SignIn,
 	signup: SignUp,
 	home: Home,
 	testdb: TestDB,
-	search: Search
+	search: Search,
+	movie: Movie
 };
 
 module.exports = React.createClass({
@@ -35,6 +37,7 @@ module.exports = React.createClass({
 			<Component 
 				route={route} 
 				navigator={navigator} 
+				data={route.data}
 			/>
 		);
 	},	
