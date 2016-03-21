@@ -62,6 +62,7 @@ module.exports = React.createClass({
 				    sidebarRef={this}
 				/>
 	  			<View style={styles.backdropWrapper}>
+            <Text style={styles.imageNotFoundText}>Oops! No backdrop found.</Text>
 	  				<Image 
 		  				resizeMode="cover" 
 		  				source={{uri: "https://image.tmdb.org/t/p/w500" + this.state.movie.backdrop_path}} 
@@ -163,5 +164,8 @@ var styles = StyleSheet.create({
   	fontSize: 20,
   	fontWeight: 'bold',
   	marginBottom: 5
+  },
+  imageNotFoundText: {
+    color: '#ffffff'
   }
 });
