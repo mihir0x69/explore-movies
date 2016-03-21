@@ -153,7 +153,8 @@ var styles = StyleSheet.create({
 		height: 45,
 		fontSize: 22,
 		marginBottom: 20,
-		color: '#bbbbbb'
+		color: '#bbbbbb',
+		textAlign: 'center'
 	},
 	errorMessage: {
 		color: '#f1c40f',
@@ -172,6 +173,7 @@ var styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	fg_white:{
-		color: '#ffffff'
+		color: '#ffffff',
+		textAlign: 'center'
 	}	
 });
