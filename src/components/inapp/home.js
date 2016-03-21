@@ -149,12 +149,12 @@ module.exports = React.createClass({
     API.getUpcomingMovies(page)
     	.then((data) => {
 	        this.setState({
-            rawData: this.state.rawData.concat(data),
+              rawData: this.state.rawData.concat(data),
 	          dataSource: this.state.dataSource.cloneWithRows(this.state.rawData.concat(data)),
 	          loaded: true,
 	          isRefreshing: false,
 	          isEnabled: true,
-            loader: HiddenLoader
+              loader: HiddenLoader
 	        });
     	});
   },
